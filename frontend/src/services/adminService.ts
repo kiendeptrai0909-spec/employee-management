@@ -32,4 +32,27 @@ export const updatePosition = (id: number, payload: { name: string; description?
   api.put(`/positions/${id}`, payload);
 export const deletePosition = (id: number) => api.delete(`/positions/${id}`);
 
-export const getRoles = () => api.get("/roles");
+export const getRoles = async () => {
+  try {
+    return await api.get("/roles");
+  } catch {
+    const usersRes = await api.get("/admin/users");
+    const users = Array.isArray(usersRes.data?.data) ? usersRes.data.data : [];
+    const roleMap = new Map<number, { id: number; name: string; description?: string }>();
+
+    users.forEach((u: { roleId?: number; roleName?: string }) => {
+      if (typeof u.roleId === "number" && u.roleName) {
+        roleMap.set(u.roleId, { id: u.roleId, name: u.roleName });
+      }
+    });
+
+    return {
+      ...usersRes,
+      data: {
+        success: true,
+        message: "Roles inferred from users",
+        data: Array.from(roleMap.values()),
+      },
+    };
+  }
+};

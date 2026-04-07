@@ -50,26 +50,42 @@ export default function EmployeeListPage() {
 
   const loadData = async () => {
     setLoading(true);
-    try {
-      const [uRes, rRes, dRes, pRes] = await Promise.all([
-        getAllUsers(),
-        getRoles(),
-        getDepartments(),
-        getPositions(),
-      ]);
-      const list = unwrapApiData(uRes);
-      const roleList = unwrapApiData(rRes);
-      const deptList = unwrapApiData(dRes);
-      const posList = unwrapApiData(pRes);
+    const [uRes, rRes, dRes, pRes] = await Promise.allSettled([
+      getAllUsers(),
+      getRoles(),
+      getDepartments(),
+      getPositions(),
+    ]);
+
+    if (uRes.status === "fulfilled") {
+      const list = unwrapApiData(uRes.value);
       setRows(Array.isArray(list) ? list : []);
-      setRoles(Array.isArray(roleList) ? roleList : []);
-      setDepartments(Array.isArray(deptList) ? deptList : []);
-      setPositions(Array.isArray(posList) ? posList : []);
-    } catch {
+    } else {
       setRows([]);
-    } finally {
-      setLoading(false);
     }
+
+    if (rRes.status === "fulfilled") {
+      const roleList = unwrapApiData(rRes.value);
+      setRoles(Array.isArray(roleList) ? roleList : []);
+    } else {
+      setRoles([]);
+    }
+
+    if (dRes.status === "fulfilled") {
+      const deptList = unwrapApiData(dRes.value);
+      setDepartments(Array.isArray(deptList) ? deptList : []);
+    } else {
+      setDepartments([]);
+    }
+
+    if (pRes.status === "fulfilled") {
+      const posList = unwrapApiData(pRes.value);
+      setPositions(Array.isArray(posList) ? posList : []);
+    } else {
+      setPositions([]);
+    }
+
+    setLoading(false);
   };
 
   useEffect(() => {
