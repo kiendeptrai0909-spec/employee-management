@@ -10,6 +10,11 @@ import PositionPage from "../pages/admin/PositionPage";
 import RolePage from "../pages/admin/RolePage";
 import UserDashboardPage from "../pages/user/DashboardPage";
 import ProfilePage from "../pages/user/ProfilePage";
+import AttendancePage from "../pages/user/AttendancePage";
+import LeaveRequestPage from "../pages/user/LeaveRequestPage";
+import PayrollPage from "../pages/user/PayrollPage";
+import NotificationPage from "../pages/user/NotificationPage";
+import DocumentPage from "../pages/user/DocumentPage";
 
 export default function AppRoutes() {
   return (
@@ -44,6 +49,11 @@ export default function AppRoutes() {
         >
           <Route index element={<UserDashboardPage />} />
           <Route path="profile" element={<ProfilePage />} />
+          <Route path="attendance" element={<AttendancePage />} />
+          <Route path="leave-requests" element={<LeaveRequestPage />} />
+          <Route path="payroll" element={<PayrollPage />} />
+          <Route path="notifications" element={<NotificationPage />} />
+          <Route path="documents" element={<DocumentPage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
@@ -51,3 +61,4 @@ export default function AppRoutes() {
     </BrowserRouter>
   );
 }
+
