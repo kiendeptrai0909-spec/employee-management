@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { login } from "../../services/authService";
-import { saveCurrentUser } from "../../utils/authStorage";
+import { saveAuthSession, type RoleName } from "../../utils/authStorage";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -19,18 +19,22 @@ export default function LoginPage() {
     try {
       const response = await login({ username, password });
       const user = response.data?.data;
-      const role = user?.role || user?.roleName;
-      if (!user || !role) {
+      const role = (user?.role || user?.roleName) as RoleName | undefined;
+      const token = user?.token;
+      if (!user || !role || !token) {
         throw new Error("Dữ liệu đăng nhập không hợp lệ.");
       }
 
-      saveCurrentUser({
-        id: user.id,
-        username: user.username,
-        fullName: user.fullName,
-        role,
-        email: user.email,
-      });
+      saveAuthSession(
+        {
+          id: user.id,
+          username: user.username,
+          fullName: user.fullName,
+          role,
+          email: user.email,
+        },
+        token
+      );
 
       if (role === "ADMIN") navigate("/admin");
       else navigate("/user");

@@ -6,6 +6,7 @@ import com.example.employeesystem.entity.User;
 import com.example.employeesystem.exception.ResourceNotFoundException;
 import com.example.employeesystem.repository.LeaveRequestRepository;
 import com.example.employeesystem.repository.UserRepository;
+import com.example.employeesystem.security.JwtPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,10 +31,17 @@ public class LeaveRequestService {
     }
 
     @Transactional
-    public LeaveRequestDTO create(LeaveRequestDTO dto) {
+    public LeaveRequestDTO create(LeaveRequestDTO dto, JwtPrincipal principal) {
+        Long targetUserId;
+        if ("ADMIN".equals(principal.role())) {
+            targetUserId = dto.getUserId() != null ? dto.getUserId() : principal.userId();
+        } else {
+            targetUserId = principal.userId();
+        }
+
         LeaveRequest entity = new LeaveRequest();
-        User user = userRepository.findById(dto.getUserId())
-            .orElseThrow(() -> new ResourceNotFoundException("User", dto.getUserId()));
+        User user = userRepository.findById(targetUserId)
+            .orElseThrow(() -> new ResourceNotFoundException("User", targetUserId));
         entity.setUser(user);
         entity.setStartDate(dto.getStartDate());
         entity.setEndDate(dto.getEndDate());

@@ -11,6 +11,7 @@ import com.example.employeesystem.repository.PositionRepository;
 import com.example.employeesystem.repository.RoleRepository;
 import com.example.employeesystem.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final DepartmentRepository departmentRepository;
     private final PositionRepository positionRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // ==================== ADMIN CRUD ====================
 
@@ -66,7 +68,7 @@ public class UserService {
 
         User user = new User();
         user.setUsername(request.getUsername());
-        user.setPassword(request.getPassword());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
         user.setPhone(request.getPhone());
