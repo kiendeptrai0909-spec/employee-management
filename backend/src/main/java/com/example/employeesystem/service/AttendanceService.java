@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +22,7 @@ public class AttendanceService {
 
     private final AttendanceRepository repository;
     private final UserRepository userRepository;
+    private static final ZoneId APP_ZONE = ZoneId.of("Asia/Ho_Chi_Minh");
 
     public List<AttendanceDTO> getAll() {
         return repository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
@@ -32,7 +34,7 @@ public class AttendanceService {
 
     @Transactional
     public AttendanceDTO checkIn(Long userId) {
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now(APP_ZONE);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", userId));
         
@@ -44,14 +46,14 @@ public class AttendanceService {
         Attendance entity = new Attendance();
         entity.setUser(user);
         entity.setWorkDate(today);
-        entity.setCheckIn(LocalTime.now());
+        entity.setCheckIn(LocalTime.now(APP_ZONE));
         entity.setStatus("PRESENT");
         return toDTO(repository.save(entity));
     }
 
     @Transactional
     public AttendanceDTO checkOut(Long userId) {
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now(APP_ZONE);
         List<Attendance> existing = repository.findByUserIdAndWorkDateBetween(userId, today, today);
         if(existing.isEmpty()){
             throw new IllegalArgumentException("Hôm nay chưa chấm công vào.");
@@ -60,7 +62,7 @@ public class AttendanceService {
         if(entity.getCheckOut() != null){
              throw new IllegalArgumentException("Đã chấm công ra cho hôm nay rồi.");
         }
-        entity.setCheckOut(LocalTime.now());
+        entity.setCheckOut(LocalTime.now(APP_ZONE));
         return toDTO(repository.save(entity));
     }
 

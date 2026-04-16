@@ -14,6 +14,13 @@ interface NotificationRow {
   isPublished: boolean;
 }
 
+const normalizeText = (value: unknown) => {
+  if (typeof value !== "string") return "";
+  // Defensive fix for Vietnamese text stored in decomposed form (NFD),
+  // which can render with "broken" diacritics on some setups.
+  return value.normalize("NFC");
+};
+
 const targetLabel = (type: string) => {
   switch (type) {
     case "ALL":
@@ -66,9 +73,9 @@ export default function NotificationPage() {
                 <div className="card-body p-4">
                   <div className="d-flex align-items-start justify-content-between gap-3">
                     <div>
-                      <h3 className="h6 fw-semibold mb-1">{n.title}</h3>
+                      <h3 className="h6 fw-semibold mb-1">{normalizeText(n.title)}</h3>
                       <p className="mb-0 text-muted small" style={{ whiteSpace: "pre-wrap" }}>
-                        {n.content}
+                        {normalizeText(n.content)}
                       </p>
                     </div>
                     <span className={`badge rounded-pill px-2 py-1 flex-shrink-0 ${tl.cls}`}>

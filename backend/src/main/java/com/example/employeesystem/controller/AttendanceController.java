@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.List;
 
 @RestController
@@ -16,6 +18,7 @@ import java.util.List;
 public class AttendanceController {
 
     private final AttendanceService attendanceService;
+    private static final ZoneId APP_ZONE = ZoneId.of("Asia/Ho_Chi_Minh");
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -38,12 +41,16 @@ public class AttendanceController {
     @PostMapping("/check-in/{userId}")
     @PreAuthorize("hasRole('ADMIN') or @authz.isSelf(#userId)")
     public ResponseEntity<ApiResponse<AttendanceDTO>> checkIn(@PathVariable Long userId) {
-        return ResponseEntity.ok(ApiResponse.success("Vào làm lúc " + java.time.LocalTime.now(), attendanceService.checkIn(userId)));
+        return ResponseEntity.ok(
+            ApiResponse.success("Vào làm lúc " + LocalTime.now(APP_ZONE), attendanceService.checkIn(userId))
+        );
     }
 
     @PostMapping("/check-out/{userId}")
     @PreAuthorize("hasRole('ADMIN') or @authz.isSelf(#userId)")
     public ResponseEntity<ApiResponse<AttendanceDTO>> checkOut(@PathVariable Long userId) {
-        return ResponseEntity.ok(ApiResponse.success("Ra về lúc " + java.time.LocalTime.now(), attendanceService.checkOut(userId)));
+        return ResponseEntity.ok(
+            ApiResponse.success("Ra về lúc " + LocalTime.now(APP_ZONE), attendanceService.checkOut(userId))
+        );
     }
 }
