@@ -1,9 +1,11 @@
 package com.example.employeesystem.controller;
 
 import com.example.employeesystem.dto.common.ApiResponse;
+import com.example.employeesystem.dto.common.ChangePasswordRequest;
 import com.example.employeesystem.dto.common.ProfileUpdateRequest;
 import com.example.employeesystem.dto.common.UserDTO;
 import com.example.employeesystem.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,5 +32,14 @@ public class UserController {
             @RequestBody ProfileUpdateRequest request) {
         UserDTO dto = userService.updateProfile(id, request);
         return ResponseEntity.ok(ApiResponse.success("Cập nhật profile thành công", dto));
+    }
+
+    @PutMapping("/profile/{id}/password")
+    @PreAuthorize("hasRole('ADMIN') or @authz.isSelf(#id)")
+    public ResponseEntity<ApiResponse<Void>> changePassword(
+            @PathVariable Long id,
+            @Valid @RequestBody ChangePasswordRequest request) {
+        userService.changePassword(id, request);
+        return ResponseEntity.ok(ApiResponse.success("Đổi mật khẩu thành công", null));
     }
 }

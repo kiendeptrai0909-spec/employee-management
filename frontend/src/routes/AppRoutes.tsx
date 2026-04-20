@@ -8,6 +8,8 @@ import EmployeeListPage from "../pages/admin/EmployeeListPage";
 import DepartmentPage from "../pages/admin/DepartmentPage";
 import PositionPage from "../pages/admin/PositionPage";
 import RolePage from "../pages/admin/RolePage";
+import LeaveApprovalPage from "../pages/admin/LeaveApprovalPage";
+import AttendanceReportPage from "../pages/admin/AttendanceReportPage";
 import UserDashboardPage from "../pages/user/DashboardPage";
 import ProfilePage from "../pages/user/ProfilePage";
 import AttendancePage from "../pages/user/AttendancePage";
@@ -35,8 +37,8 @@ export default function AppRoutes() {
           <Route path="departments" element={<DepartmentPage />} />
           <Route path="positions" element={<PositionPage />} />
           <Route path="roles" element={<RolePage />} />
-          <Route path="leave-approval" element={<Navigate to="/admin/employees" replace />} />
-          <Route path="attendance-report" element={<Navigate to="/admin/employees" replace />} />
+          <Route path="leave-approval" element={<LeaveApprovalPage />} />
+          <Route path="attendance-report" element={<AttendanceReportPage />} />
         </Route>
 
         <Route

@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { createUser, deleteUser, fetchUsers, updateUser } from "../api/usersApi";
 import { fetchDepartments, fetchPositions, fetchRoles } from "../api/metaApi";
-import { ApiError } from "../api/client";
+import axios from "axios";
 import type {
   DepartmentDTO,
   PositionDTO,
@@ -23,14 +23,14 @@ import { useToast } from "../context/ToastContext";
 import { UserModal, type ModalMode } from "../components/UserModal";
 
 function formatApiError(err: unknown): string {
-  if (err instanceof ApiError) {
-    const b = err.body;
-    if (b && typeof b === "object" && !Array.isArray(b)) {
-      const o = b as Record<string, string>;
+  if (axios.isAxiosError(err)) {
+    const b = err.response?.data;
+    if (b && typeof b === "object" && !Array.isArray(b) && b.data) {
+      const o = b.data as Record<string, string>;
       const parts = Object.entries(o).map(([k, v]) => `${k}: ${v}`);
       if (parts.length) return parts.join(" · ");
     }
-    return err.message;
+    return err.response?.data?.message || err.message;
   }
   return "Đã xảy ra lỗi.";
 }
@@ -59,10 +59,10 @@ export function EmployeesPage() {
         fetchDepartments(),
         fetchPositions(),
       ]);
-      setUsers(u.data);
-      setRoles(r.data);
-      setDepartments(d.data);
-      setPositions(p.data);
+      setUsers(u.data.data);
+      setRoles(r.data.data);
+      setDepartments(d.data.data);
+      setPositions(p.data.data);
     } catch (e) {
       toast.push(formatApiError(e), "error");
     } finally {
@@ -94,8 +94,8 @@ export function EmployeesPage() {
   async function handleCreate(body: UserCreateRequest) {
     try {
       const res = await createUser(body);
-      setUsers((prev) => [...prev, res.data]);
-      toast.push(res.message || "Đã tạo nhân viên", "success");
+      setUsers((prev) => [...prev, res.data.data]);
+      toast.push(res.data.message || "Đã tạo nhân viên", "success");
     } catch (e) {
       toast.push(formatApiError(e), "error");
       throw e;
@@ -105,8 +105,8 @@ export function EmployeesPage() {
   async function handleUpdate(id: number, body: UserUpdateRequest) {
     try {
       const res = await updateUser(id, body);
-      setUsers((prev) => prev.map((u) => (u.id === id ? res.data : u)));
-      toast.push(res.message || "Đã cập nhật", "success");
+      setUsers((prev) => prev.map((u) => (u.id === id ? res.data.data : u)));
+      toast.push(res.data.message || "Đã cập nhật", "success");
     } catch (e) {
       toast.push(formatApiError(e), "error");
       throw e;
@@ -119,7 +119,7 @@ export function EmployeesPage() {
     try {
       const res = await deleteUser(deleteId);
       setUsers((prev) => prev.filter((u) => u.id !== deleteId));
-      toast.push(res.message || "Đã xóa", "success");
+      toast.push(res.data.message || "Đã xóa", "success");
       setDeleteId(null);
     } catch (e) {
       toast.push(formatApiError(e), "error");

@@ -22,12 +22,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiResponse<Void>> handleNotFound(ResourceNotFoundException ex) {
+        log.warn("[404] ResourceNotFound: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(ApiResponse.error(ex.getMessage()));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ApiResponse<Void>> handleBadRequest(IllegalArgumentException ex) {
+        log.warn("[400] IllegalArgument: {}", ex.getMessage());
         return ResponseEntity.badRequest()
                 .body(ApiResponse.error(ex.getMessage()));
     }
@@ -40,13 +42,14 @@ public class GlobalExceptionHandler {
             String message = error.getDefaultMessage();
             errors.put(field, message);
         });
+        log.warn("[400] Validation failed — fields: {}", errors.keySet());
         return ResponseEntity.badRequest()
                 .body(new ApiResponse<>(false, "Dữ liệu không hợp lệ", errors));
     }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ApiResponse<Void>> handleRuntime(RuntimeException ex) {
-        log.error("Unhandled server error", ex);
+        log.error("[500] Unhandled server error: {}", ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(ApiResponse.error(GENERIC_SERVER_ERROR));
     }

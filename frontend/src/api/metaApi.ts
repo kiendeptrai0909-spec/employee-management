@@ -1,14 +1,14 @@
-import { apiGet } from "./client";
+import api from "../services/api";
 import type { DepartmentDTO, PositionDTO, RoleDTO } from "./types";
 
 export function fetchDepartments() {
-  return apiGet<DepartmentDTO[]>("/api/departments");
+  return api.get<{ success: boolean; message: string; data: DepartmentDTO[] }>("/departments");
 }
 
 export function fetchPositions() {
-  return apiGet<PositionDTO[]>("/api/positions");
+  return api.get<{ success: boolean; message: string; data: PositionDTO[] }>("/positions");
 }
 
 export function fetchRoles() {
-  return apiGet<RoleDTO[]>("/api/roles");
+  return api.get<{ success: boolean; message: string; data: RoleDTO[] }>("/roles");
 }

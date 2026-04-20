@@ -159,6 +159,14 @@ export default function AppSidebar({ role }: AppSidebarProps) {
           <IconShield />
           Vai trò
         </NavLink>
+        <NavLink to="/admin/leave-approval" className={linkClass}>
+          <IconCalendar />
+          Phê duyệt nghỉ phép
+        </NavLink>
+        <NavLink to="/admin/attendance-report" className={linkClass}>
+          <IconClock />
+          Báo cáo chấm công
+        </NavLink>
       </nav>
     </aside>
   );

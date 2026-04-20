@@ -1,24 +1,24 @@
-import { apiDelete, apiGet, apiPost, apiPut } from "./client";
+import api from "../services/api";
 import type { UserCreateRequest, UserDTO, UserUpdateRequest } from "./types";
 
-const BASE = "/api/admin/users";
+const BASE = "/admin/users";
 
 export function fetchUsers() {
-  return apiGet<UserDTO[]>(BASE);
+  return api.get<{ success: boolean; message: string; data: UserDTO[] }>(BASE);
 }
 
 export function fetchUser(id: number) {
-  return apiGet<UserDTO>(`${BASE}/${id}`);
+  return api.get<{ success: boolean; message: string; data: UserDTO }>(`${BASE}/${id}`);
 }
 
 export function createUser(req: UserCreateRequest) {
-  return apiPost<UserCreateRequest, UserDTO>(BASE, req);
+  return api.post<{ success: boolean; message: string; data: UserDTO }>(BASE, req);
 }
 
 export function updateUser(id: number, req: UserUpdateRequest) {
-  return apiPut<UserUpdateRequest, UserDTO>(`${BASE}/${id}`, req);
+  return api.put<{ success: boolean; message: string; data: UserDTO }>(`${BASE}/${id}`, req);
 }
 
 export function deleteUser(id: number) {
-  return apiDelete(`${BASE}/${id}`);
+  return api.delete<{ success: boolean; message: string; data: null }>(`${BASE}/${id}`);
 }

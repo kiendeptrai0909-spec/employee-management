@@ -159,6 +159,20 @@ public class UserService {
         return toDTO(saved);
     }
 
+    // ==================== CHANGE PASSWORD ====================
+
+    @Transactional
+    public void changePassword(Long id, ChangePasswordRequest request) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User", id));
+
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("Mật khẩu hiện tại không chính xác");
+        }
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+    }
+
     // ==================== HELPER ====================
 
     private UserDTO toDTO(User user) {

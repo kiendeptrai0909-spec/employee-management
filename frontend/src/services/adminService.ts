@@ -33,3 +33,11 @@ export const updatePosition = (id: number, payload: { name: string; description?
 export const deletePosition = (id: number) => api.delete(`/positions/${id}`);
 
 export const getRoles = () => api.get("/roles");
+
+// ── Admin: Leave approvals ──────────────────────────────────────────────────
+export const getAllLeaveRequests = () => api.get("/leaves");
+export const updateLeaveStatus = (id: number, status: string) =>
+  api.put(`/leaves/${id}/status`, null, { params: { status } });
+
+// ── Admin: Attendance report ────────────────────────────────────────────────
+export const getAllAttendance = () => api.get("/attendance");
