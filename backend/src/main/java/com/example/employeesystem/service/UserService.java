@@ -80,6 +80,26 @@ public class UserService {
         user.setDepartment(department);
         user.setPosition(position);
 
+        // --- Các trường mới ---
+        user.setIdentityCard(request.getIdentityCard());
+        user.setTemporaryAddress(request.getTemporaryAddress());
+        user.setPersonalEmail(request.getPersonalEmail());
+        user.setEmployeeCode(request.getEmployeeCode());
+        user.setJoinDate(request.getJoinDate());
+        user.setContractType(request.getContractType());
+        user.setManagerId(request.getManagerId());
+        user.setBasicSalary(request.getBasicSalary());
+        user.setAllowance(request.getAllowance());
+        user.setBankAccountNumber(request.getBankAccountNumber());
+        user.setBankName(request.getBankName());
+        user.setTaxId(request.getTaxId());
+        user.setInsuranceNumber(request.getInsuranceNumber());
+        user.setWorkSchedule(request.getWorkSchedule());
+        user.setKpiScore(request.getKpiScore());
+        user.setSkills(request.getSkills());
+        user.setEducationLevel(request.getEducationLevel());
+        user.setEquipment(request.getEquipment());
+
         User saved = userRepository.save(user);
         return toDTO(saved);
     }
@@ -102,6 +122,26 @@ public class UserService {
         if (request.getGender() != null) user.setGender(request.getGender());
         if (request.getAvatar() != null) user.setAvatar(request.getAvatar());
         if (request.getStatus() != null) user.setStatus(request.getStatus());
+
+        // --- Các trường mới ---
+        if (request.getIdentityCard() != null) user.setIdentityCard(request.getIdentityCard());
+        if (request.getTemporaryAddress() != null) user.setTemporaryAddress(request.getTemporaryAddress());
+        if (request.getPersonalEmail() != null) user.setPersonalEmail(request.getPersonalEmail());
+        if (request.getEmployeeCode() != null) user.setEmployeeCode(request.getEmployeeCode());
+        if (request.getJoinDate() != null) user.setJoinDate(request.getJoinDate());
+        if (request.getContractType() != null) user.setContractType(request.getContractType());
+        if (request.getManagerId() != null) user.setManagerId(request.getManagerId());
+        if (request.getBasicSalary() != null) user.setBasicSalary(request.getBasicSalary());
+        if (request.getAllowance() != null) user.setAllowance(request.getAllowance());
+        if (request.getBankAccountNumber() != null) user.setBankAccountNumber(request.getBankAccountNumber());
+        if (request.getBankName() != null) user.setBankName(request.getBankName());
+        if (request.getTaxId() != null) user.setTaxId(request.getTaxId());
+        if (request.getInsuranceNumber() != null) user.setInsuranceNumber(request.getInsuranceNumber());
+        if (request.getWorkSchedule() != null) user.setWorkSchedule(request.getWorkSchedule());
+        if (request.getKpiScore() != null) user.setKpiScore(request.getKpiScore());
+        if (request.getSkills() != null) user.setSkills(request.getSkills());
+        if (request.getEducationLevel() != null) user.setEducationLevel(request.getEducationLevel());
+        if (request.getEquipment() != null) user.setEquipment(request.getEquipment());
 
         if (request.getRoleId() != null) {
             Role role = roleRepository.findById(request.getRoleId())
@@ -193,6 +233,24 @@ public class UserService {
                 .departmentName(user.getDepartment() != null ? user.getDepartment().getName() : null)
                 .positionId(user.getPosition() != null ? user.getPosition().getId() : null)
                 .positionName(user.getPosition() != null ? user.getPosition().getName() : null)
+                .identityCard(user.getIdentityCard())
+                .temporaryAddress(user.getTemporaryAddress())
+                .personalEmail(user.getPersonalEmail())
+                .employeeCode(user.getEmployeeCode())
+                .joinDate(user.getJoinDate())
+                .contractType(user.getContractType())
+                .managerId(user.getManagerId())
+                .basicSalary(user.getBasicSalary())
+                .allowance(user.getAllowance())
+                .bankAccountNumber(user.getBankAccountNumber())
+                .bankName(user.getBankName())
+                .taxId(user.getTaxId())
+                .insuranceNumber(user.getInsuranceNumber())
+                .workSchedule(user.getWorkSchedule())
+                .kpiScore(user.getKpiScore())
+                .skills(user.getSkills())
+                .educationLevel(user.getEducationLevel())
+                .equipment(user.getEquipment())
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
                 .build();

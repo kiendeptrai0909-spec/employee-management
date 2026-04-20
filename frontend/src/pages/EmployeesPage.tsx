@@ -235,7 +235,14 @@ export function EmployeesPage() {
                     <td className="px-4 py-3 font-mono text-xs text-slate-500">
                       {i + 1}
                     </td>
-                    <td className="px-4 py-3 font-medium text-white">{row.fullName}</td>
+                    <td className="px-4 py-3 font-medium text-white">
+                      {row.fullName}
+                      {row.employeeCode && (
+                        <span className="ml-2 rounded bg-slate-800 px-1.5 py-0.5 text-xs text-slate-400 font-mono">
+                          {row.employeeCode}
+                        </span>
+                      )}
+                    </td>
                     <td className="px-4 py-3 text-slate-400">{row.email ?? "—"}</td>
                     <td className="px-4 py-3 font-mono text-xs text-slate-400">
                       {row.phone ?? "—"}
