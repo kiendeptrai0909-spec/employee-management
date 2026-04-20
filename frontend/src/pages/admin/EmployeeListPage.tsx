@@ -94,16 +94,20 @@ export default function EmployeeListPage() {
             Thêm, sửa, xóa và gán phòng ban, chức vụ, quản lý hồ sơ nhân sự đầy đủ.
           </p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <button type="button" className="btn-ghost" onClick={() => void loadData()}>
+        <div className="flex flex-wrap gap-3">
+          <button 
+            type="button" 
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-medium text-slate-200 transition-all hover:bg-white/10 active:scale-95" 
+            onClick={() => void loadData()}
+          >
             Làm mới
           </button>
           <button
             type="button"
-            className="btn-primary"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-600 to-brand-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-600/25 transition-all hover:from-brand-500 hover:to-brand-400 hover:shadow-brand-500/30 active:scale-95 disabled:opacity-50"
             onClick={() => setModal({ mode: "create", user: null })}
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-5 w-5" />
             Thêm nhân viên
           </button>
         </div>
@@ -161,10 +165,10 @@ export default function EmployeeListPage() {
                       <StatusBadge status={item.status} />
                     </td>
                     <td className="px-4 py-3">
-                      <div className="flex justify-end gap-1">
+                      <div className="flex justify-end gap-2">
                         <button
                           type="button"
-                          className="rounded-lg p-2 text-slate-400 hover:bg-white/10 hover:text-white"
+                          className="flex h-8 w-8 items-center justify-center rounded-lg bg-surface-800 text-slate-400 transition-colors hover:bg-white/10 hover:text-white"
                           title="Xem chi tiết"
                           onClick={() => setModal({ mode: "view", user: item })}
                         >
@@ -172,7 +176,7 @@ export default function EmployeeListPage() {
                         </button>
                         <button
                           type="button"
-                          className="rounded-lg p-2 text-slate-400 hover:bg-white/10 hover:text-brand-400"
+                          className="flex h-8 w-8 items-center justify-center rounded-lg bg-surface-800 text-slate-400 transition-colors hover:bg-brand-500/20 hover:text-brand-400"
                           title="Sửa"
                           onClick={() => setModal({ mode: "edit", user: item })}
                         >
@@ -180,7 +184,7 @@ export default function EmployeeListPage() {
                         </button>
                         <button
                           type="button"
-                          className="rounded-lg p-2 text-slate-400 hover:bg-red-500/15 hover:text-red-400"
+                          className="flex h-8 w-8 items-center justify-center rounded-lg bg-surface-800 text-slate-400 transition-colors hover:bg-red-500/20 hover:text-red-400"
                           title="Xóa"
                           onClick={() => void handleDelete(item.id)}
                         >
