@@ -21,6 +21,9 @@
   .input-field {
     @apply w-full rounded-xl border border-white/10 bg-surface-900/80 px-4 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 outline-none transition focus:border-brand-500/60 focus:ring-2 focus:ring-brand-500/20;
   }
+  .input-field-premium {
+    @apply w-full rounded-xl border border-white/5 bg-black/20 px-4 py-3 text-sm text-slate-100 placeholder:text-slate-500/70 outline-none transition-all duration-300 hover:border-white/10 hover:bg-black/30 focus:border-brand-500/50 focus:bg-surface-950/80 focus:ring-4 focus:ring-brand-500/10 focus:shadow-[0_0_15px_rgba(99,102,241,0.1)];
+  }
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-600 to-brand-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-600/25 transition hover:from-brand-500 hover:to-brand-400 hover:shadow-brand-500/30 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none;
   }
@@ -30,4 +33,21 @@
   .btn-danger {
     @apply inline-flex items-center justify-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm font-medium text-red-300 transition hover:bg-red-500/20;
   }
+
+  /* Custom Scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
 }
+
