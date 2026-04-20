@@ -10,43 +10,20 @@ import {
   updateUser,
 } from "../../services/adminService";
 import StatusBadge from "../../components/common/StatusBadge";
-
-interface EmployeeRow {
-  id: number;
-  username: string;
-  fullName: string;
-  email?: string;
-  roleId?: number;
-  roleName?: string;
-  departmentId?: number | null;
-  departmentName?: string;
-  positionId?: number | null;
-  positionName?: string;
-  status: string;
-}
-
-interface OptionItem {
-  id: number;
-  name: string;
-}
+import { UserModal, type ModalMode } from "../../components/UserModal";
+import type { UserDTO, RoleDTO, DepartmentDTO, PositionDTO } from "../../api/types";
+import { Plus, Eye, Pencil, Trash2, Users } from "lucide-react";
 
 export default function EmployeeListPage() {
-  const [rows, setRows] = useState<EmployeeRow[]>([]);
-  const [roles, setRoles] = useState<OptionItem[]>([]);
-  const [departments, setDepartments] = useState<OptionItem[]>([]);
-  const [positions, setPositions] = useState<OptionItem[]>([]);
+  const [rows, setRows] = useState<UserDTO[]>([]);
+  const [roles, setRoles] = useState<RoleDTO[]>([]);
+  const [departments, setDepartments] = useState<DepartmentDTO[]>([]);
+  const [positions, setPositions] = useState<PositionDTO[]>([]);
   const [loading, setLoading] = useState(false);
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [form, setForm] = useState({
-    username: "",
-    password: "",
-    fullName: "",
-    email: "",
-    roleId: "",
-    departmentId: "",
-    positionId: "",
-    status: "ACTIVE",
-  });
+  const [modal, setModal] = useState<{
+    mode: ModalMode;
+    user: UserDTO | null;
+  } | null>(null);
 
   const loadData = async () => {
     setLoading(true);
@@ -92,250 +69,122 @@ export default function EmployeeListPage() {
     void loadData();
   }, []);
 
-  const resetForm = () => {
-    setEditingId(null);
-    setForm({
-      username: "",
-      password: "",
-      fullName: "",
-      email: "",
-      roleId: "",
-      departmentId: "",
-      positionId: "",
-      status: "ACTIVE",
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!form.fullName.trim() || !form.roleId) return;
-
-    if (editingId) {
-      await updateUser(editingId, {
-        fullName: form.fullName.trim(),
-        email: form.email.trim() || undefined,
-        roleId: Number(form.roleId),
-        departmentId: form.departmentId ? Number(form.departmentId) : null,
-        positionId: form.positionId ? Number(form.positionId) : null,
-        status: form.status,
-      });
-    } else {
-      if (!form.username.trim() || !form.password.trim()) return;
-      await createUser({
-        username: form.username.trim(),
-        password: form.password.trim(),
-        fullName: form.fullName.trim(),
-        email: form.email.trim() || undefined,
-        roleId: Number(form.roleId),
-        departmentId: form.departmentId ? Number(form.departmentId) : null,
-        positionId: form.positionId ? Number(form.positionId) : null,
-      });
-    }
-
-    resetForm();
+  const handleCreate = async (body: any) => {
+    await createUser(body);
     await loadData();
   };
 
-  const handleEdit = (item: EmployeeRow) => {
-    setEditingId(item.id);
-    setForm({
-      username: item.username || "",
-      password: "",
-      fullName: item.fullName || "",
-      email: item.email || "",
-      roleId: item.roleId ? String(item.roleId) : "",
-      departmentId: item.departmentId ? String(item.departmentId) : "",
-      positionId: item.positionId ? String(item.positionId) : "",
-      status: item.status || "ACTIVE",
-    });
+  const handleUpdate = async (id: number, body: any) => {
+    await updateUser(id, body);
+    await loadData();
   };
 
   const handleDelete = async (id: number) => {
-    if (!window.confirm("Xóa nhân viên này?")) return;
+    if (!window.confirm("Bạn có chắc chắn muốn xóa nhân viên này?")) return;
     await deleteUser(id);
     await loadData();
   };
 
   return (
-    <>
-      <h1 className="app-page-title">Nhân viên</h1>
-      <p className="app-page-sub">Thêm, sửa, xóa và gán phòng ban, chức vụ</p>
-      <div className="card shadow-sm">
-      <div className="card-body">
-        <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-          <h2 className="h5 mb-0 fw-semibold">Danh sách</h2>
-          <button
-            type="button"
-            className="btn btn-outline-primary btn-sm rounded-pill px-3"
-            onClick={() => void loadData()}
-          >
+    <div className="animate-fade-in space-y-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight text-white">Nhân viên</h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Thêm, sửa, xóa và gán phòng ban, chức vụ, quản lý hồ sơ nhân sự đầy đủ.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <button type="button" className="btn-ghost" onClick={() => void loadData()}>
             Làm mới
           </button>
+          <button
+            type="button"
+            className="btn-primary"
+            onClick={() => setModal({ mode: "create", user: null })}
+          >
+            <Plus className="h-4 w-4" />
+            Thêm nhân viên
+          </button>
         </div>
-        <form className="row g-2 mb-3" onSubmit={(e) => void handleSubmit(e)}>
-          {!editingId && (
-            <>
-              <div className="col-md-3">
-                <input
-                  className="form-control"
-                  placeholder="Username"
-                  value={form.username}
-                  onChange={(e) => setForm((prev) => ({ ...prev, username: e.target.value }))}
-                  required
-                />
-              </div>
-              <div className="col-md-3">
-                <input
-                  type="password"
-                  className="form-control"
-                  placeholder="Password"
-                  value={form.password}
-                  onChange={(e) => setForm((prev) => ({ ...prev, password: e.target.value }))}
-                  required
-                />
-              </div>
-            </>
-          )}
-          <div className="col-md-3">
-            <input
-              className="form-control"
-              placeholder="Họ tên"
-              value={form.fullName}
-              onChange={(e) => setForm((prev) => ({ ...prev, fullName: e.target.value }))}
-              required
-            />
-          </div>
-          <div className="col-md-3">
-            <input
-              className="form-control"
-              placeholder="Email"
-              value={form.email}
-              onChange={(e) => setForm((prev) => ({ ...prev, email: e.target.value }))}
-            />
-          </div>
-          <div className="col-md-2">
-            <select
-              className="form-select"
-              value={form.roleId}
-              onChange={(e) => setForm((prev) => ({ ...prev, roleId: e.target.value }))}
-              required
-            >
-              <option value="">Chọn role</option>
-              {roles.map((r) => (
-                <option key={r.id} value={r.id}>
-                  {r.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="col-md-2">
-            <select
-              className="form-select"
-              value={form.departmentId}
-              onChange={(e) => setForm((prev) => ({ ...prev, departmentId: e.target.value }))}
-            >
-              <option value="">Phòng ban</option>
-              {departments.map((d) => (
-                <option key={d.id} value={d.id}>
-                  {d.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="col-md-2">
-            <select
-              className="form-select"
-              value={form.positionId}
-              onChange={(e) => setForm((prev) => ({ ...prev, positionId: e.target.value }))}
-            >
-              <option value="">Chức vụ</option>
-              {positions.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          {editingId && (
-            <div className="col-md-2">
-              <select
-                className="form-select"
-                value={form.status}
-                onChange={(e) => setForm((prev) => ({ ...prev, status: e.target.value }))}
-              >
-                <option value="ACTIVE">ACTIVE</option>
-                <option value="INACTIVE">INACTIVE</option>
-              </select>
-            </div>
-          )}
-          <div className="col-12 d-flex gap-2">
-            <button className="btn btn-primary" type="submit">
-              {editingId ? "Cập nhật nhân viên" : "Thêm nhân viên"}
-            </button>
-            {editingId && (
-              <button className="btn btn-outline-secondary" type="button" onClick={resetForm}>
-                Hủy
-              </button>
-            )}
-          </div>
-        </form>
+      </div>
 
-        <div className="table-responsive">
-          <table className="table table-bordered table-hover align-middle">
-            <thead className="table-light">
-              <tr>
-                <th>#</th>
-                <th>Username</th>
-                <th>Họ tên</th>
-                <th>Email</th>
-                <th>Vai trò</th>
-                <th>Phòng ban</th>
-                <th>Chức vụ</th>
-                <th>Trạng thái</th>
-                <th style={{ width: 180 }}>Thao tác</th>
+      <div className="overflow-hidden rounded-2xl border border-white/10 bg-surface-900/40 shadow-card">
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[800px] text-left text-sm">
+            <thead>
+              <tr className="border-b border-white/10 bg-surface-950/80 text-xs uppercase tracking-wider text-slate-500">
+                <th className="px-4 py-3 font-semibold">#</th>
+                <th className="px-4 py-3 font-semibold">Username</th>
+                <th className="px-4 py-3 font-semibold">Họ tên & Mã NV</th>
+                <th className="px-4 py-3 font-semibold">Email</th>
+                <th className="px-4 py-3 font-semibold">Vai trò</th>
+                <th className="px-4 py-3 font-semibold">Phòng ban</th>
+                <th className="px-4 py-3 font-semibold">Trạng thái</th>
+                <th className="px-4 py-3 font-semibold text-right">Thao tác</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td colSpan={9} className="text-center">
-                    Đang tải...
+                  <td colSpan={8} className="px-4 py-8 text-center text-slate-500">
+                    Đang tải dữ liệu...
                   </td>
                 </tr>
               ) : rows.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="text-center">
-                    Chưa có dữ liệu
+                  <td colSpan={8} className="px-4 py-8 text-center text-slate-500">
+                    Chưa có dữ liệu nhân viên.
                   </td>
                 </tr>
               ) : (
                 rows.map((item, index) => (
-                  <tr key={item.id}>
-                    <td>{index + 1}</td>
-                    <td>{item.username}</td>
-                    <td>{item.fullName}</td>
-                    <td>{item.email || "-"}</td>
-                    <td>{item.roleName || "-"}</td>
-                    <td>{item.departmentName || "-"}</td>
-                    <td>{item.positionName || "-"}</td>
-                    <td>
+                  <tr key={item.id} className="border-b border-white/5 transition hover:bg-white/[0.03]">
+                    <td className="px-4 py-3 font-mono text-xs text-slate-500">{index + 1}</td>
+                    <td className="px-4 py-3 text-slate-300">{item.username}</td>
+                    <td className="px-4 py-3 font-medium text-white">
+                      {item.fullName}
+                      {item.employeeCode && (
+                        <span className="ml-2 rounded bg-slate-800 px-1.5 py-0.5 text-xs text-slate-400 font-mono">
+                          {item.employeeCode}
+                        </span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3 text-slate-400">{item.email || "-"}</td>
+                    <td className="px-4 py-3">
+                      <span className="rounded-lg bg-brand-500/10 px-2 py-0.5 text-xs text-brand-400">
+                        {item.roleName || "-"}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-slate-400">{item.departmentName || "-"}</td>
+                    <td className="px-4 py-3">
                       <StatusBadge status={item.status} />
                     </td>
-                    <td>
-                      <div className="d-flex gap-2">
+                    <td className="px-4 py-3">
+                      <div className="flex justify-end gap-1">
                         <button
-                          className="btn btn-sm btn-outline-primary"
                           type="button"
-                          onClick={() => handleEdit(item)}
+                          className="rounded-lg p-2 text-slate-400 hover:bg-white/10 hover:text-white"
+                          title="Xem chi tiết"
+                          onClick={() => setModal({ mode: "view", user: item })}
                         >
-                          Sửa
+                          <Eye className="h-4 w-4" />
                         </button>
                         <button
-                          className="btn btn-sm btn-outline-danger"
                           type="button"
+                          className="rounded-lg p-2 text-slate-400 hover:bg-white/10 hover:text-brand-400"
+                          title="Sửa"
+                          onClick={() => setModal({ mode: "edit", user: item })}
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </button>
+                        <button
+                          type="button"
+                          className="rounded-lg p-2 text-slate-400 hover:bg-red-500/15 hover:text-red-400"
+                          title="Xóa"
                           onClick={() => void handleDelete(item.id)}
                         >
-                          Xóa
+                          <Trash2 className="h-4 w-4" />
                         </button>
                       </div>
                     </td>
@@ -346,7 +195,19 @@ export default function EmployeeListPage() {
           </table>
         </div>
       </div>
+
+      {modal && (
+        <UserModal
+          mode={modal.mode}
+          user={modal.user}
+          roles={roles}
+          departments={departments}
+          positions={positions}
+          onClose={() => setModal(null)}
+          onCreate={handleCreate}
+          onUpdate={handleUpdate}
+        />
+      )}
     </div>
-    </>
   );
 }
