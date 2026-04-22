@@ -1,25 +1,25 @@
 /* Employee System — UI theme (Bootstrap + overrides) */
 
 :root {
-  --app-primary: #4f46e5;
-  --app-primary-hover: #4338ca;
-  --app-primary-soft: rgba(79, 70, 229, 0.12);
-  --app-surface: #ffffff;
-  --app-bg: #f1f5f9;
+  --app-primary: #6366f1;
+  --app-primary-hover: #5558e3;
+  --app-primary-soft: rgba(99, 102, 241, 0.15);
+  --app-surface: #1e293b;
+  --app-bg: #0f172a;
   --app-sidebar: #0f172a;
-  --app-sidebar-hover: rgba(255, 255, 255, 0.06);
-  --app-sidebar-active: rgba(79, 70, 229, 0.35);
-  --app-border: rgba(15, 23, 42, 0.08);
-  --app-text-muted: #64748b;
+  --app-sidebar-hover: rgba(255, 255, 255, 0.08);
+  --app-sidebar-active: rgba(99, 102, 241, 0.25);
+  --app-border: rgba(255, 255, 255, 0.1);
+  --app-text-muted: #94a3b8;
   --app-radius: 0.75rem;
-  --app-shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 4px 16px rgba(15, 23, 42, 0.04);
-  --app-shadow-lg: 0 4px 24px rgba(15, 23, 42, 0.08);
+  --app-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.15);
+  --app-shadow-lg: 0 4px 24px rgba(0, 0, 0, 0.25);
 }
 
 body {
   font-family: "DM Sans", system-ui, -apple-system, sans-serif;
   background: var(--app-bg);
-  color: #0f172a;
+  color: #f1f5f9;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -51,7 +51,7 @@ body {
 .app-navbar .navbar-brand {
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: #0f172a !important;
+  color: #f1f5f9 !important;
   font-size: 1.1rem;
 }
 
@@ -70,7 +70,7 @@ body {
 }
 
 .app-user-pill {
-  background: #f8fafc;
+  background: rgba(30, 41, 59, 0.6);
   border: 1px solid var(--app-border);
   border-radius: 999px;
   padding: 0.35rem 0.85rem;
@@ -79,7 +79,7 @@ body {
 }
 
 .app-user-pill strong {
-  color: #0f172a;
+  color: #f1f5f9;
   font-weight: 600;
 }
 
@@ -138,7 +138,7 @@ body {
 
 .app-main {
   padding: 1.5rem 1.75rem 2rem;
-  background: linear-gradient(180deg, #f8fafc 0%, var(--app-bg) 40%);
+  background: linear-gradient(180deg, #1e293b 0%, var(--app-bg) 40%);
   min-height: calc(100vh - 56px);
 }
 
@@ -152,7 +152,7 @@ body {
   font-size: 1.35rem;
   font-weight: 700;
   letter-spacing: -0.03em;
-  color: #0f172a;
+  color: #f1f5f9;
   margin-bottom: 0.25rem;
 }
 
@@ -171,10 +171,11 @@ body {
 }
 
 .app-main .card-header {
-  background: linear-gradient(180deg, #fafbfc 0%, #fff 100%);
+  background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
   border-bottom: 1px solid var(--app-border);
   font-weight: 600;
   padding: 0.85rem 1.15rem;
+  color: #f1f5f9;
 }
 
 .app-main .table thead th {
@@ -186,10 +187,32 @@ body {
   border-bottom-width: 1px;
 }
 
+.app-main .table tbody td {
+  color: #e2e8f0;
+}
+
+.app-main .table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.app-main .form-control,
+.app-main .form-select {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid var(--app-border);
+  color: #f1f5f9;
+}
+
 .app-main .form-control:focus,
 .app-main .form-select:focus {
-  border-color: rgba(79, 70, 229, 0.45);
+  background: rgba(30, 41, 59, 0.9);
+  border-color: rgba(99, 102, 241, 0.45);
   box-shadow: 0 0 0 0.2rem var(--app-primary-soft);
+  color: #f1f5f9;
+}
+
+.app-main .form-control::placeholder,
+.app-main .form-select::placeholder {
+  color: var(--app-text-muted);
 }
 
 /* Stat cards */
@@ -230,7 +253,7 @@ body {
   font-size: 1.75rem;
   font-weight: 700;
   letter-spacing: -0.03em;
-  color: #0f172a;
+  color: #f1f5f9;
   line-height: 1.2;
 }
 
@@ -242,9 +265,9 @@ body {
   justify-content: center;
   padding: 2rem 1rem;
   background:
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(79, 70, 229, 0.22), transparent),
-    radial-gradient(ellipse 60% 40% at 100% 50%, rgba(124, 58, 237, 0.12), transparent),
-    linear-gradient(165deg, #f8fafc 0%, #e2e8f0 100%);
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.15), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 50%, rgba(139, 92, 246, 0.08), transparent),
+    linear-gradient(165deg, #0f172a 0%, #1e293b 100%);
 }
 
 .login-card {
@@ -258,6 +281,7 @@ body {
 
 .login-card .card-body {
   padding: 2rem 2rem 1.75rem;
+  background: var(--app-surface);
 }
 
 .login-card .login-brand {
@@ -280,6 +304,7 @@ body {
   font-weight: 700;
   letter-spacing: -0.03em;
   margin-bottom: 0.35rem;
+  color: #f1f5f9;
 }
 
 .login-card .lead {
@@ -291,6 +316,20 @@ body {
 .login-card .form-control {
   padding: 0.65rem 0.85rem;
   border-radius: 0.5rem;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid var(--app-border);
+  color: #f1f5f9;
+}
+
+.login-card .form-control:focus {
+  background: rgba(30, 41, 59, 0.9);
+  border-color: var(--app-primary);
+  color: #f1f5f9;
+  box-shadow: 0 0 0 0.2rem var(--app-primary-soft);
+}
+
+.login-card .form-control::placeholder {
+  color: var(--app-text-muted);
 }
 
 .login-card .btn-primary {
