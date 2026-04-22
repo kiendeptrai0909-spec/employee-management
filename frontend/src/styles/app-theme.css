@@ -354,6 +354,25 @@ body {
   border-color: var(--app-border) !important;
 }
 
+/* Force dark theme for all table elements */
+.app-main .table {
+  background: var(--app-surface) !important;
+  color: #e2e8f0 !important;
+}
+
+.app-main .table thead {
+  background: #334155 !important;
+}
+
+.app-main .table tbody tr {
+  background: var(--app-surface) !important;
+  color: #e2e8f0 !important;
+}
+
+.app-main .table tbody tr:nth-child(even) {
+  background: rgba(30, 41, 59, 0.5) !important;
+}
+
 /* Bootstrap button dark theme overrides */
 .btn-outline-primary {
   color: #6366f1 !important;
@@ -413,4 +432,41 @@ body {
 /* Text colors for table content */
 .text-center {
   color: #e2e8f0 !important;
+}
+
+/* Force dark theme for form inputs in Bootstrap */
+.app-main .form-control {
+  background: rgba(30, 41, 59, 0.8) !important;
+  border: 1px solid var(--app-border) !important;
+  color: #f1f5f9 !important;
+}
+
+.app-main .form-control:focus {
+  background: rgba(30, 41, 59, 0.9) !important;
+  border-color: var(--app-primary) !important;
+  color: #f1f5f9 !important;
+  box-shadow: 0 0 0 0.2rem var(--app-primary-soft) !important;
+}
+
+.app-main .form-control::placeholder {
+  color: var(--app-text-muted) !important;
+}
+
+/* Force dark theme for all card backgrounds */
+.app-main .card {
+  background: var(--app-surface) !important;
+  border: 1px solid var(--app-border) !important;
+}
+
+.app-main .card-body {
+  background: var(--app-surface) !important;
+  color: #f1f5f9 !important;
+}
+
+.app-main .card h2,
+.app-main .card h3,
+.app-main .card h4,
+.app-main .card h5,
+.app-main .card h6 {
+  color: #f1f5f9 !important;
 }
