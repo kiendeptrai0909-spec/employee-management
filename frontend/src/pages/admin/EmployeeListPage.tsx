@@ -12,7 +12,7 @@ import {
 import StatusBadge from "../../components/common/StatusBadge";
 import { UserModal, type ModalMode } from "../../components/UserModal";
 import type { UserDTO, RoleDTO, DepartmentDTO, PositionDTO } from "../../api/types";
-import { Plus, Eye, Pencil, Trash2, Users } from "lucide-react";
+import { Plus, Eye, Pencil, Trash2 } from "lucide-react";
 
 export default function EmployeeListPage() {
   const [rows, setRows] = useState<UserDTO[]>([]);
