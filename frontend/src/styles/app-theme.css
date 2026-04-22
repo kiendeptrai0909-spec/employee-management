@@ -537,3 +537,67 @@ body {
   border-color: #6b7280 !important;
   color: #ffffff !important;
 }
+
+/* Final overrides for remaining light elements */
+input.form-control,
+textarea.form-control,
+select.form-control {
+  background: rgba(30, 41, 59, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #f1f5f9 !important;
+}
+
+input.form-control:focus,
+textarea.form-control:focus,
+select.form-control:focus {
+  background: rgba(30, 41, 59, 1) !important;
+  border-color: var(--app-primary) !important;
+  color: #f1f5f9 !important;
+  box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25) !important;
+}
+
+input.form-control::placeholder,
+textarea.form-control::placeholder,
+select.form-control::placeholder {
+  color: #94a3b8 !important;
+  opacity: 1 !important;
+}
+
+/* Override any remaining white backgrounds */
+.bg-white {
+  background: var(--app-surface) !important;
+}
+
+.table-responsive {
+  background: var(--app-surface) !important;
+}
+
+/* Force dark theme for all table elements in all contexts */
+.table {
+  background: var(--app-surface) !important;
+  color: #e2e8f0 !important;
+}
+
+.table thead th {
+  background: #334155 !important;
+  color: #f1f5f9 !important;
+  border-color: var(--app-border) !important;
+}
+
+.table tbody td {
+  background: transparent !important;
+  color: #e2e8f0 !important;
+  border-color: var(--app-border) !important;
+}
+
+.table tbody tr {
+  background: var(--app-surface) !important;
+}
+
+.table tbody tr:nth-child(even) {
+  background: rgba(30, 41, 59, 0.5) !important;
+}
+
+.table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
