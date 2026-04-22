@@ -601,3 +601,48 @@ select.form-control::placeholder {
 .table tbody tr:hover {
   background: rgba(255, 255, 255, 0.05) !important;
 }
+
+/* Fix badge colors for dark theme */
+.badge {
+  color: #f1f5f9 !important;
+}
+
+.badge.bg-info {
+  background: rgba(59, 130, 246, 0.2) !important;
+  color: #60a5fa !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+}
+
+.badge.bg-warning {
+  background: rgba(245, 158, 11, 0.2) !important;
+  color: #fbbf24 !important;
+  border: 1px solid rgba(245, 158, 11, 0.3) !important;
+}
+
+.badge.bg-secondary {
+  background: rgba(107, 114, 128, 0.2) !important;
+  color: #9ca3af !important;
+  border: 1px solid rgba(107, 114, 128, 0.3) !important;
+}
+
+.badge.bg-success {
+  background: rgba(16, 185, 129, 0.2) !important;
+  color: #34d399 !important;
+  border: 1px solid rgba(16, 185, 129, 0.3) !important;
+}
+
+.badge.bg-danger {
+  background: rgba(239, 68, 68, 0.2) !important;
+  color: #f87171 !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+}
+
+/* Fix text-info class */
+.text-info {
+  color: #60a5fa !important;
+}
+
+/* Fix opacity classes */
+.bg-opacity-15 {
+  background-color: rgba(59, 130, 246, 0.15) !important;
+}
