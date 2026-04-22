@@ -646,3 +646,34 @@ select.form-control::placeholder {
 .bg-opacity-15 {
   background-color: rgba(59, 130, 246, 0.15) !important;
 }
+
+/* Fix text-muted for dark theme */
+.text-muted {
+  color: #94a3b8 !important;
+}
+
+/* Fix small text with muted color */
+.small.text-muted {
+  color: #94a3b8 !important;
+}
+
+/* Fix card text content */
+.card .card-body p {
+  color: #e2e8f0 !important;
+}
+
+.card .card-body .text-muted {
+  color: #94a3b8 !important;
+}
+
+/* Fix all text in notification cards */
+.card .card-body {
+  color: #f1f5f9 !important;
+}
+
+.card .card-body h3,
+.card .card-body h4,
+.card .card-body h5,
+.card .card-body h6 {
+  color: #f1f5f9 !important;
+}
