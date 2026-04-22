@@ -470,3 +470,70 @@ body {
 .app-main .card h6 {
   color: #f1f5f9 !important;
 }
+
+/* Additional overrides for stubborn elements */
+.app-main .table tbody tr td {
+  background: transparent !important;
+  color: #e2e8f0 !important;
+  border-color: var(--app-border) !important;
+}
+
+.app-main .table tbody tr:hover td {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Force dark theme for all form elements */
+.form-control {
+  background: rgba(30, 41, 59, 0.9) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #f1f5f9 !important;
+}
+
+.form-control:focus {
+  background: rgba(30, 41, 59, 1) !important;
+  border-color: var(--app-primary) !important;
+  color: #f1f5f9 !important;
+  box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25) !important;
+}
+
+.form-control::placeholder {
+  color: #94a3b8 !important;
+  opacity: 1 !important;
+}
+
+/* Override Bootstrap button variants */
+.btn-outline-primary {
+  background-color: transparent !important;
+  border-color: #6366f1 !important;
+  color: #6366f1 !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: #6366f1 !important;
+  border-color: #6366f1 !important;
+  color: #ffffff !important;
+}
+
+.btn-outline-danger {
+  background-color: transparent !important;
+  border-color: #ef4444 !important;
+  color: #ef4444 !important;
+}
+
+.btn-outline-danger:hover {
+  background-color: #ef4444 !important;
+  border-color: #ef4444 !important;
+  color: #ffffff !important;
+}
+
+.btn-outline-secondary {
+  background-color: transparent !important;
+  border-color: #6b7280 !important;
+  color: #6b7280 !important;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #6b7280 !important;
+  border-color: #6b7280 !important;
+  color: #ffffff !important;
+}
